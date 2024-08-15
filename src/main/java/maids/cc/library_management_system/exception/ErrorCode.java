@@ -9,8 +9,10 @@ public enum ErrorCode {
     AUTHENTICATION_EXCEPTION(5),
     BOOK_NOT_FOUND(6),
     PATRON_NOT_FOUND(7),
-    LOGICAL_ERROR(8),
-    UNKNOWN_SERVER_ERROR(100);
+    RECORD_NOT_FOUND(8),
+    LOGICAL_ERROR(9),
+    UNKNOWN_SERVER_ERROR(100),
+    DEACTIVATED_ACCOUNT(10);
 
     private final int code;
     ErrorCode(int code)

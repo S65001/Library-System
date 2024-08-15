@@ -29,7 +29,7 @@ public class AspectConfig {
 
     }
     @AfterThrowing(pointcut = "execution(* maids.cc.library_management_system.service.*(..))", throwing = "exception")
-    public void ExceptionLogging(JoinPoint joinPoint,Exception exception){
+    public void ExceptionLogging(JoinPoint joinPoint,Throwable exception){
         String methodName = joinPoint.getSignature().getName();
         logger.error("<< {}({}) - {}", methodName,joinPoint.getArgs(), exception.getMessage());
     }

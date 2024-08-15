@@ -3,6 +3,7 @@ package maids.cc.library_management_system.controller;
 import lombok.RequiredArgsConstructor;
 import maids.cc.library_management_system.entity.Book;
 import maids.cc.library_management_system.service.BookService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,19 +18,22 @@ public class BookController {
         return bookService.getAll();
     }
     @GetMapping("/{id}")
-    public Book getBook(@PathVariable("id") Long id){
-        return bookService.getBook(id);
+    public ResponseEntity<Book> getBook(@PathVariable("id") Long id){
+        return ResponseEntity.ok(bookService.getBook(id));
     }
     @PostMapping
-    public void addBook(@RequestBody Book book){
+    public ResponseEntity<String> addBook(@RequestBody Book book){
         bookService.addBook(book);
+        return ResponseEntity.ok("success");
     }
     @PutMapping("/{id}")
-    public void updateBook(@PathVariable("id") Long id,@RequestBody Book book){
+    public ResponseEntity<String> updateBook(@PathVariable("id") Long id,@RequestBody Book book){
         bookService.updateBook(id ,book);
+        return ResponseEntity.ok("success");
     }
     @DeleteMapping("/{id}")
-    public void deleteBook(@PathVariable("id") Long id){
+    public ResponseEntity<String> deleteBook(@PathVariable("id") Long id){
         bookService.deleteBook(id);
+        return ResponseEntity.ok("success");
     }
 }

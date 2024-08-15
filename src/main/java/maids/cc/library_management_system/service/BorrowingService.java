@@ -41,10 +41,15 @@ public class BorrowingService {
     @Transactional
     public void returnBook(Long bookId, Long patronId){
         Book book =bookRepo.findById(bookId).orElseThrow(()-> new RuntimeErrorCodedException(ErrorCode.BOOK_NOT_FOUND,"book is not found"));
-        if(book.getBorrowed()< 1) throw new RuntimeErrorCodedException(ErrorCode.LOGICAL_ERROR,"there no borrowed books with that name");
+
+        if(book.getBorrowed()< 1) throw new RuntimeErrorCodedException(ErrorCode.LOGICAL_ERROR,"there are no copies of the book currently borrowed");
+
         book.setBorrowed(book.getBorrowed()-1);
         bookRepo.save(book);
-        BorrowingRecord record=borrowingRepo.findTop1ByBookIdAndPatronIdAndReturnDateIsNullOrderByBorrowDateAsc(bookId,patronId);
+
+        BorrowingRecord record=borrowingRepo.findTop1ByBookIdAndPatronIdAndReturnDateIsNullOrderByBorrowDateAsc(bookId,patronId)
+                .orElseThrow(()->new RuntimeErrorCodedException(ErrorCode.RECORD_NOT_FOUND,"No active borrowing record found for book ID " + bookId + " and patron ID " + patronId + ". This may occur if the book was never borrowed or has already been returned."));
+
         record.setReturnDate(LocalDate.now());
         borrowingRepo.save(record);
     }
