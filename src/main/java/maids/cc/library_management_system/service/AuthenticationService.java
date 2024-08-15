@@ -49,9 +49,10 @@ public class AuthenticationService {
 
         UserInfo userInfo = (UserInfo) authentication.getPrincipal();
 
+        String token =jwtService.generateToken(userInfo);
+        Long expiryTime=jwtService.getExpirationTime();
 
-
-            return new LoginResponse(userInfo.getEmployee().getId(),jwtService.generateToken(userInfo),jwtService.getExpirationTime());
+            return new LoginResponse(userInfo.getEmployee().getId(),token,expiryTime);
 
 
 
