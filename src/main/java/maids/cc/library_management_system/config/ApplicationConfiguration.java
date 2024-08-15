@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import maids.cc.library_management_system.exception.ErrorCode;
 import maids.cc.library_management_system.exception.RuntimeErrorCodedException;
 import maids.cc.library_management_system.repo.EmployeeRepo;
-import maids.cc.library_management_system.security.EmailPasswordAuthenticationProvider;
 import maids.cc.library_management_system.security.UserInfo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,6 +38,11 @@ public class ApplicationConfiguration {
 
     @Bean
     AuthenticationProvider authenticationProvider() {
-        return new EmailPasswordAuthenticationProvider(userDetailsService(),passwordEncoder());
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
     }
 }

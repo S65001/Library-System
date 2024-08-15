@@ -47,9 +47,11 @@ public class AuthenticationService {
                         input.getEmail(),
                         input.getPassword()));
 
-            UserInfo user = (UserInfo) authentication.getPrincipal();
+        UserInfo userInfo = (UserInfo) authentication.getPrincipal();
 
-            return new LoginResponse(user.getEmployee().getId(),jwtService.generateToken(user),jwtService.getExpirationTime());
+
+
+            return new LoginResponse(userInfo.getEmployee().getId(),jwtService.generateToken(userInfo),jwtService.getExpirationTime());
 
 
 

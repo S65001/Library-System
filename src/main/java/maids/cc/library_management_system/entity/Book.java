@@ -1,7 +1,7 @@
 package maids.cc.library_management_system.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "Book")
+@Table(name = "book")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
