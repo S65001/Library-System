@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import maids.cc.library_management_system.dto.LoginResponse;
 import maids.cc.library_management_system.dto.LoginUserDto;
 import maids.cc.library_management_system.dto.RegisterUserDto;
+import maids.cc.library_management_system.dto.RegisterUserResponse;
 import maids.cc.library_management_system.entity.Employee;
 import maids.cc.library_management_system.service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +34,8 @@ public class AuthenticationController {
                     @ApiResponse(responseCode = "400", description = "Email already exists")
             })
     @PostMapping("/signup")
-    public ResponseEntity<Employee> register(@RequestBody @Valid RegisterUserDto registerUserDto) {
-        Employee registeredEmployee = authenticationService.signup(registerUserDto);
+    public ResponseEntity<RegisterUserResponse> register(@RequestBody @Valid RegisterUserDto registerUserDto) {
+        RegisterUserResponse registeredEmployee = authenticationService.signup(registerUserDto);
 
         return ResponseEntity.ok(registeredEmployee);
     }

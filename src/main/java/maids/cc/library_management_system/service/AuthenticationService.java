@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import maids.cc.library_management_system.dto.LoginResponse;
 import maids.cc.library_management_system.dto.LoginUserDto;
 import maids.cc.library_management_system.dto.RegisterUserDto;
+import maids.cc.library_management_system.dto.RegisterUserResponse;
 import maids.cc.library_management_system.entity.Employee;
 import maids.cc.library_management_system.exception.ErrorCode;
 import maids.cc.library_management_system.exception.RuntimeErrorCodedException;
@@ -26,7 +27,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
 
 
-    public Employee signup(RegisterUserDto input) {
+    public RegisterUserResponse signup(RegisterUserDto input) {
         if(employeeRepository.findEmployeeByEmail(input.getEmail()).isEmpty()) {
             Employee employee = Employee.builder().email(input.getEmail())
                     .firstname(input.getFirstname())
@@ -36,7 +37,8 @@ public class AuthenticationService {
                     .isEnabled(true)
                     .build();
 
-            return employeeRepository.save(employee);
+             employee=employeeRepository.save(employee);
+             return new RegisterUserResponse(employee.getId(), employee.getFirstname(), employee.getLastname(), employee.getEmail(), employee.getPhoneNumber());
         }else{
             throw new RuntimeErrorCodedException(ErrorCode.EMAIL_ALREADY_EXISTS,"user is already exist");
         }

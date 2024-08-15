@@ -18,9 +18,10 @@ public class BookService {
     public List<Book> getAll() {
         return bookRepo.findAll();
     }
-    @Cacheable(value = "book_cache",key = "#id")
+    //@Cacheable(value = "bookCache",key = "#id")
     public Book getBook(Long id){
-        return bookRepo.findById(id).orElseThrow(()->new RuntimeErrorCodedException(ErrorCode.BOOK_NOT_FOUND,"the book is not found"));
+        Book book= bookRepo.findById(id).orElseThrow(()->new RuntimeErrorCodedException(ErrorCode.BOOK_NOT_FOUND,"the book is not found"));
+        return book;
     }
     public void addBook(Book book){
         if(book.getQuantity()>=book.getBorrowed())
@@ -28,7 +29,7 @@ public class BookService {
         else
             throw new RuntimeErrorCodedException(ErrorCode.LOGICAL_ERROR,"the borrowed books can't be more than the available quantity");
     }
-    @CachePut(value = "book_cache",key = "#id")
+    //@CachePut(value = "bookCache",key = "#id")
     public void updateBook(Long id,Book newBookDetails){
         Book bookDetails=bookRepo.findById(id).orElseThrow(()->new RuntimeErrorCodedException(ErrorCode.BOOK_NOT_FOUND,"the book is not found"));
         if(newBookDetails.getQuantity()>=newBookDetails.getBorrowed()) {
@@ -41,7 +42,7 @@ public class BookService {
         }else
             throw new RuntimeErrorCodedException(ErrorCode.LOGICAL_ERROR,"the borrowed books can't be more than the available quantity");
     }
-    @CacheEvict(value = "book_cache",key = "#id")
+    //@CacheEvict(value = "bookCache",key = "#id")
     public void deleteBook(Long id){
         bookRepo.deleteById(id);
     }

@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import maids.cc.library_management_system.entity.Book;
 import maids.cc.library_management_system.exception.ErrorDetails;
@@ -42,7 +43,8 @@ public class BookController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<Book> getBook(@PathVariable("id") Long id){
-        return ResponseEntity.ok(bookService.getBook(id));
+        Book book=bookService.getBook(id);
+        return ResponseEntity.ok(book);
     }
 
 
@@ -52,7 +54,7 @@ public class BookController {
             @ApiResponse(responseCode = "400", description = "Invalid book data provided", content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
     })
     @PostMapping
-    public ResponseEntity<String> addBook(@RequestBody Book book){
+    public ResponseEntity<String> addBook(@Valid @RequestBody Book book){
         bookService.addBook(book);
         return ResponseEntity.ok("success");
     }

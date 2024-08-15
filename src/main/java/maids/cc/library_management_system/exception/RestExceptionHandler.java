@@ -53,12 +53,12 @@ public class RestExceptionHandler
 
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorDetails> handleUnknownErrors(RuntimeErrorCodedException exception)
+    public ResponseEntity<ErrorDetails> handleUnknownErrors(RuntimeException exception)
     {
         ErrorDetails errorDetails = new ErrorDetails();
         errorDetails.setCode(ErrorCode.UNKNOWN_SERVER_ERROR.getCode());
         errorDetails.setTimeStamp(new Date().getTime());
-        errorDetails.setDetails("not recognized");
+        errorDetails.setDetails(exception.getMessage());
 
         return new ResponseEntity<>(errorDetails,HttpStatus.BAD_REQUEST);
     }
