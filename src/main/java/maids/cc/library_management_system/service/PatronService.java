@@ -19,23 +19,23 @@ public class PatronService {
     public void addPatron(Patron patron){
         patronRepo.save(patron);
     }
-    //@CachePut(value = "patron_cache",key = "#id")
-    public void updatePatron(Long id , Patron newPatronDetails){
+    @CachePut(value = "patronCache",key = "#id")
+    public Patron updatePatron(Long id , Patron newPatronDetails){
         Patron patronDetails=patronRepo.findById(id).orElseThrow(()->new RuntimeErrorCodedException(ErrorCode.PATRON_NOT_FOUND,"patron is not found"));
         patronDetails=Patron.builder()
                 .Id(patronDetails.getId())
                 .name(newPatronDetails.getName())
                 .contactInfo(newPatronDetails.getContactInfo()).build();
-        patronRepo.save(patronDetails);
+        return patronRepo.save(patronDetails);
     }
     public List<Patron> getAllPatrons(){
         return patronRepo.findAll();
     }
-    //@Cacheable(value = "patron_cache",key = "#id")
+    @Cacheable(value = "patronCache",key = "#id")
     public Patron getPatron(Long id){
         return patronRepo.findById(id).orElseThrow(()->new RuntimeErrorCodedException(ErrorCode.PATRON_NOT_FOUND,"patron is not found"));
     }
-    //@CacheEvict(value = "patron_cache",key = "#id")
+    @CacheEvict(value = "patronCache",key = "#id")
     public void deletePatron(Long id){
         patronRepo.deleteById(id);
     }
